@@ -1,3 +1,4 @@
+//Task 2 - Adding Support Tickets Dynamically
 document.addEventListener("DOMContentLoaded", () => {
     const ticketContainer = document.getElementById("ticketContainer");
 
@@ -31,8 +32,18 @@ document.addEventListener("DOMContentLoaded", () => {
         ticket.appendChild(resolveButton);
 
         ticketContainer.appendChild(ticket);
+    } 
+    //Task 3 - Converting NodeLists to Arrays for Bulk Updates
+    function highlightHighPriorityTickets() {
+        const highPriorityTickets = Array.from(document.querySelectorAll(".support-ticket .priority-label"));
+        highPriorityTickets.forEach(priorityLabel => {
+            if (priorityLabel.textContent.toLowerCase().includes("high")) { 
+                priorityLabel.parentElement.style.border = "5px solid #f03737";
+                priorityLabel.parentElement.style.backgroundColor = "#f2daf5";
+            }
+        });
     }
-
     createSupportTicket("Lebron James", "Wifi Problem", "High");
     createSupportTicket("Stephen Curry", "Slow Wifi", "Low");
+    highlightHighPriorityTickets()
 });
