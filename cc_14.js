@@ -29,11 +29,66 @@ document.addEventListener("DOMContentLoaded", () => {
         resolveButton.addEventListener("click", function () {
             ticket.remove();
         });
-          
+
+        //Task 5 - Edit Button
+        const editButton = document.createElement("button");
+        editButton.setAttribute("class", "edit-button");
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click", () => enableEditing(ticket, nameHeading, issueParagraph, priorityLabel, editButton));
+        ticket.appendChild(editButton);
+
         ticket.appendChild(resolveButton);
 
         ticketContainer.appendChild(ticket);
     } 
+
+        //Task 5 - Inline Editing of Support Tickets 
+    function enableEditing(ticket, nameElement, issueElement, priorityElement, editButton) {
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.value = nameElement.textContent;
+
+        const issueInput = document.createElement("input");
+        issueInput.type = "text";
+        issueInput.value = issueElement.textContent;
+
+        const priorityInput = document.createElement("input");
+        priorityInput.type = "text";
+        priorityInput.value = priorityElement.textContent.replace("Priority: ", "");
+
+        ticket.replaceChild(nameInput, nameElement);
+        ticket.replaceChild(issueInput, issueElement);
+        ticket.replaceChild(priorityInput, priorityElement);
+
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "Save";
+        saveButton.setAttribute("class", "save-button");
+        saveButton.addEventListener("click", () => saveEdits(ticket, nameInput, issueInput, priorityInput, editButton, saveButton));
+        ticket.appendChild(saveButton);
+
+        editButton.style.display = "none";
+    }
+
+    function saveEdits(ticket, nameInput, issueInput, priorityInput, editButton, saveButton) {
+        const updatedName = document.createElement("h3");
+        updatedName.textContent = nameInput.value;
+
+        const updatedIssue = document.createElement("p");
+        updatedIssue.textContent = issueInput.value;
+
+        const updatedPriority = document.createElement("span");
+        updatedPriority.setAttribute("class", "priority-label");
+        updatedPriority.textContent = `Priority: ${priorityInput.value}`;
+
+        ticket.replaceChild(updatedName, nameInput);
+        ticket.replaceChild(updatedIssue, issueInput);
+        ticket.replaceChild(updatedPriority, priorityInput);
+
+        editButton.style.display = "inline-block"; 
+        saveButton.remove();
+    }
+
+
     //Task 3 - Converting NodeLists to Arrays for Bulk Updates
     function highlightHighPriorityTickets() {
         const highPriorityTickets = Array.from(document.querySelectorAll(".support-ticket .priority-label"));
