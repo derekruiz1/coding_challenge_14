@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resolveButton.addEventListener("click", function () {
             ticket.remove();
         });
+          
         ticket.appendChild(resolveButton);
 
         ticketContainer.appendChild(ticket);
@@ -37,12 +38,20 @@ document.addEventListener("DOMContentLoaded", () => {
     function highlightHighPriorityTickets() {
         const highPriorityTickets = Array.from(document.querySelectorAll(".support-ticket .priority-label"));
         highPriorityTickets.forEach(priorityLabel => {
-            if (priorityLabel.textContent.toLowerCase().includes("high")) { 
+            if (priorityLabel.textContent.toLowerCase().includes("high")) {
                 priorityLabel.parentElement.style.border = "5px solid #f03737";
                 priorityLabel.parentElement.style.backgroundColor = "#f2daf5";
             }
         });
     }
+
+   //Task 4 - Implementing Ticket Resolution with Event Bubbling
+    ticketContainer.addEventListener("click", (event) => {
+        if (event.target.classList.contains("support-ticket")) {
+            console.log("A support ticket was clicked!");
+        }
+    });
+
     createSupportTicket("Lebron James", "Wifi Problem", "High");
     createSupportTicket("Stephen Curry", "Slow Wifi", "Low");
     highlightHighPriorityTickets()
